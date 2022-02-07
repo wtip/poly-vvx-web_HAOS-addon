@@ -1,0 +1,14 @@
+#!/usr/bin/with-contenv bashio
+# ==============================================================================
+# Start the web service
+# s6-overlay docs: https://github.com/just-containers/s6-overlay
+# ==============================================================================
+
+export FLASK_APP=/flask-app/app
+export FLASK_RUN_PORT=8000
+
+## Print log message
+bashio::log.info "Starting Flask server"
+
+## Run your program
+exec flask run --host=0.0.0.0

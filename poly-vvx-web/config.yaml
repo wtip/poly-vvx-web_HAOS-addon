@@ -1,0 +1,21 @@
+name: "Poly VVX web service"
+description: "Polycom VVX phone web service"
+url: "https://github.com/wtip/poly-vvx-web_HAOS-addon"
+version: "1.0.0"
+slug: "poly-vvx-web"
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+  - i386
+ports:
+  8000/tcp: 8912
+homeassistant_api: true
+init: false
+options:
+  SENSOR_ENTITY_IDS:
+    - sensor.date
+schema:
+  SENSOR_ENTITY_IDS:
+    - str

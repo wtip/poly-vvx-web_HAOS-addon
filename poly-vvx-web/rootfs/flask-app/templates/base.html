@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Home Assistant Dashboard</title>
+    <style>
+        body,html{
+            background-color: black;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tbody id="statsTable">
+        <tr>
+        <td>Sensor</td>
+        <td>42</td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+<script type="text/javascript">
+    statsUpdate();
+    setInterval(statsUpdate, 30 * 1000);
+
+    function statsUpdate() {
+        var stats = [];
+        getData(function (data) {
+            stats.push(data);
+            var content = '';
+            stats[0].forEach(function(item, index, array) {
+                //console.log(item.friendly_name + " " + item.state_and_unit);
+                content += '<tr>';
+                content += '<td>' + item.friendly_name +'</td>';
+                content += '<td>' + item.state_and_unit +'</td>';
+                content += '</tr>';
+            });
+            document.getElementById("statsTable").innerHTML = content;
+        });
+    }
+
+    // Ajax call to get json data from flask api endpoint
+    function getData(callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var data = JSON.parse(xhr.responseText);
+                callback(data);
+            }
+        };
+        xhr.open('GET', '/api', true);
+        xhr.send();
+    }
+</script>
+</html>
